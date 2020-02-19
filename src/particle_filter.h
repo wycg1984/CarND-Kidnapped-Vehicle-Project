@@ -42,6 +42,8 @@ class ParticleFilter {
    * @param theta Initial orientation [rad]
    * @param std[] Array of dimension 3 [standard deviation of x [m], 
    *   standard deviation of y [m], standard deviation of yaw [rad]]
+   * 前3个是x，y和theta，也就是初始的位置和初始的航向
+   * 第4个参数为一个数组，这个数组存储的是x方向、y方向以及航向的测量误差。
    */
   void init(double x, double y, double theta, double std[]);
 
@@ -53,6 +55,10 @@ class ParticleFilter {
    *   standard deviation of y [m], standard deviation of yaw [rad]]
    * @param velocity Velocity of car from t to t+1 [m/s]
    * @param yaw_rate Yaw rate of car from t to t+1 [rad/s]
+   * 第一个参数delta_t为连续两帧的时间差，也就是公式中的△t
+   * 第二个参数std_pos[]为预测时所引入的预测噪声，
+   * 第三个参数velocity为k时刻的车速v，
+   * 第四个参数为k时刻的yaw_rate。其中v和yaw_rate为k时刻车载传感器观测到的数据（车速、航向角变化率），是已知量
    */
   void prediction(double delta_t, double std_pos[], double velocity, 
                   double yaw_rate);
@@ -62,6 +68,8 @@ class ParticleFilter {
    *   (likely by using a nearest-neighbors data association).
    * @param predicted Vector of predicted landmark observations
    * @param observations Vector of landmark observations
+   * 该函数需要输入2个参数，predicted表示已知的地图上的路标集，每个路标都有平面坐标系下的位置x和y，以及独一无二的id；obvservations表示经过坐标转换后的观测路标，
+   * 经过数据关联后，每个观测到的路标会与实际的路标通过id进行绑定
    */
   void dataAssociation(std::vector<LandmarkObs> predicted, 
                        std::vector<LandmarkObs>& observations);
